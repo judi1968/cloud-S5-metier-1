@@ -24,7 +24,7 @@ public class StartController {
 
 			status = 200;
 			titre = "Bienvenue sur VaikaNet";
-			message = "Vous etes le bienvenue sur ce projet cloud";
+			message = "Vous etes le bienvenue sur le projet";
 		}catch (Exception e) {
 			status = 500;
 			titre = "Prendre des articles a echoue";
