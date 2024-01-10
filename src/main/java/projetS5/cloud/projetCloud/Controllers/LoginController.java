@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projetS5.cloud.projetCloud.Context.PgsqlContext;
 import projetS5.cloud.projetCloud.Model.DataObjects.Bag;
@@ -11,6 +12,9 @@ import projetS5.cloud.projetCloud.Model.Entities.Admin;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 @RestController
 @RequestMapping("login")
@@ -39,4 +43,32 @@ public class LoginController {
 
         return new Bag(exception, object);
     }
+
+    @PostMapping("/login-admin")
+    public Map initializer(@RequestParam String name,@RequestParam String password) {
+		Map resultat = new HashMap();
+		int status = 0;
+		String titre = null;
+		String message = null;
+		Map data = new HashMap();
+		Vector<String> donnes = new Vector<>();
+		try {
+            donnes.add(name);
+            donnes.add(password);
+
+			status = 200;
+			titre = "Bienvenue sur VaikaNet";
+			message = "Vous etes le bienvenue sur le projet";
+		}catch (Exception e) {
+			status = 500;
+			titre = "Prendre des articles a echoue";
+			message = e.getMessage();
+		}finally {
+			resultat.put("status",status);
+			resultat.put("titre",titre);
+			resultat.put("message",message);
+			resultat.put("data",donnes);
+			return resultat;
+		}
+	}
 }
