@@ -22,7 +22,7 @@ public class LoginController {
         Object object = null;
         Connection connection = null;
         try {
-            connection = PgsqlContext.connect();
+            //connection = PgsqlContext.connect();
             String email = request.getParameter("name");
             String password = request.getParameter("password");
 
