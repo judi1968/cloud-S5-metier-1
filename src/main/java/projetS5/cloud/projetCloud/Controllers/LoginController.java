@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Vector;
 
 @RestController
-@RequestMapping("login")
 public class LoginController {
 
     @PostMapping("admin")
@@ -44,7 +43,7 @@ public class LoginController {
         return new Bag(exception, object);
     }
 
-    @PostMapping("/login-admin")
+    @PostMapping("/login_admin")
     public Map initializer(@RequestParam String name,@RequestParam String password) {
 		Map resultat = new HashMap();
 		int status = 0;
