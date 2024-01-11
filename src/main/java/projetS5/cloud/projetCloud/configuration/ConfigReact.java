@@ -16,7 +16,7 @@ public class ConfigReact {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*"); // Remplacez par l'URL de votre application React
+        config.addAllowedOrigin("http://localhost:3000"); // Remplacez par l'URL de votre application React
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
