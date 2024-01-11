@@ -14,9 +14,10 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
-        config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedHeader("https://main--zingy-liger-17f829.netlify.app");
-        config.addAllowedMethod("*");
+        config.addAllowedOrigin("*");  // Autorise toutes les origines
+        config.addAllowedHeader("*");  // Autorise tous les en-têtes
+        config.addAllowedMethod("*");  // Autorise toutes les méthodes
+        source.registerCorsConfiguration("/**", config);
         config.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**", config);
