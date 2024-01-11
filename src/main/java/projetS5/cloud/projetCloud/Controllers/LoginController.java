@@ -43,7 +43,7 @@ public class LoginController {
         return new Bag(exception, object);
     }
 
-    @PostMapping("/login_admin")
+    @GetMapping("/log_admin_traitement")
     public Map initializer(@RequestParam String name,@RequestParam String password) {
 		Map resultat = new HashMap();
 		int status = 0;
