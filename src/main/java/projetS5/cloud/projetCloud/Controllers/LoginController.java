@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import projetS5.cloud.projetCloud.Context.PgsqlContext;
 import projetS5.cloud.projetCloud.Model.DataObjects.Bag;
 import projetS5.cloud.projetCloud.Model.Entities.Admin;
@@ -61,9 +64,15 @@ public class LoginController {
             if (name.compareToIgnoreCase("judi")!=0) {
                 throw new Exception("Nom non valider");
             }
+            // Générer un token JWT
+            String token = Jwts.builder()
+                .setSubject(name)
+                .signWith(SignatureAlgorithm.HS256, "PER_AT0001") // Remplacez "votre-cle-secrete" par une clé secrète réelle : eto zao izy idPersonne
+                .compact();
             status = 200;
             titre = "S'authentification VaikaNet";
             message = "Vous êtes le bienvenu sur le projet";
+            data.put("token", token);
         } catch (Exception e) {
             status = 500;
             titre = "Authentification a échoué";
