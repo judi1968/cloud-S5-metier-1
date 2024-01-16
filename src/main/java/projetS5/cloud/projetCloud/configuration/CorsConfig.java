@@ -1,5 +1,4 @@
 package projetS5.cloud.projetCloud.configuration;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -13,13 +12,9 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-
-        config.addAllowedOrigin("*");  // Autorise toutes les origines
-        config.addAllowedHeader("*");  // Autorise tous les en-têtes
-        config.addAllowedMethod("*");  // Autorise toutes les méthodes
-        source.registerCorsConfiguration("/**", config);
-        config.setAllowCredentials(true);
-
+        config.addAllowedOrigin("https://65a6dfe2d42b3e000814f26d--vaikanet-admin.netlify.app");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
