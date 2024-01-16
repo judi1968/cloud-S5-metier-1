@@ -46,7 +46,7 @@ public class LoginController {
     }
 
     @PostMapping("/log_admin_traitement")
-   public Map<String, Object> initializer(@RequestBody Login log) {
+    public Map<String, Object> initializer(@RequestBody Map<String, Object> requestBody) {
         Map<String, Object> resultat = new HashMap<>();
         int status = 0;
         String titre = null;
@@ -55,12 +55,12 @@ public class LoginController {
         Vector<String> donnes = new Vector<>();
 
         try {
-            donnes.add(log.getName());
-            donnes.add(log.getPassword());
+            donnes.add((String) requestBody.get("name"));
+            donnes.add((String) requestBody.get("password"));
 
             status = 200;
             titre = "S'authentification VaikaNet";
-            message = "Vous êtes le bienvenue sur le projet";
+            message = "Vous êtes le bienvenu sur le projet";
         } catch (Exception e) {
             status = 500;
             titre = "Prendre des articles a échoué";
