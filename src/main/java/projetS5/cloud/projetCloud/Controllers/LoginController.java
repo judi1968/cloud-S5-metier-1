@@ -63,16 +63,18 @@ public class LoginController {
             donnes.add((String) requestBody.get("password"));
             if (name.compareToIgnoreCase("judi")!=0) {
                 throw new Exception("Nom non valider");
-            }
-            // Générer un token JWT
-            String token = Jwts.builder()
+            }else{
+
+                // Générer un token JWT
+                String token = Jwts.builder()
                 .setSubject(name)
                 .signWith(SignatureAlgorithm.HS256, "PER_AT0001") // Remplacez "votre-cle-secrete" par une clé secrète réelle : eto zao izy idPersonne
                 .compact();
-            status = 200;
-            titre = "S'authentification VaikaNet";
-            message = "Vous êtes le bienvenu sur le projet";
-            data.put("token", token);
+                data.put("token", token);
+                status = 200;
+                titre = "S'authentification VaikaNet";
+                message = "Vous êtes le bienvenu sur le projet";
+            }
         } catch (Exception e) {
             status = 500;
             titre = "Authentification a échoué";
