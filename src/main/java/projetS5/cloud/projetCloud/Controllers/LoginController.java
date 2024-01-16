@@ -72,10 +72,8 @@ public class LoginController {
                         .signWith(SignatureAlgorithm.HS256, "votre-cle-secrete") // Remplacez "votre-cle-secrete" par une clé secrète réelle
                         .compact();
                 System.out.println("ok");
-                resultat.put("status", status);
-                resultat.put("titre", titre);
-                resultat.put("message", message);
-                resultat.put("token", token); // Ajouter le token dans les données
+                
+                // resultat.put("token", token); // Ajouter le token dans les données
     
             } else {
                 throw new Exception("Nom non valide");
@@ -86,6 +84,9 @@ public class LoginController {
             message = e.getMessage();
         } finally {
             resultat.put("data", donnes);
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
         }
     
         return resultat;
