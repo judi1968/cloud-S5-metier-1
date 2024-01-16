@@ -64,14 +64,14 @@ public class LoginController {
         
             if ("judi".equalsIgnoreCase(name)) {
                 // Générer un token JWT
+                status = 200;
+                titre = "S'authentification VaikaNet";
+                message = "Vous êtes le bienvenu sur le projet";
                 String token = Jwts.builder()
                         .setSubject(name)
                         .signWith(SignatureAlgorithm.HS256, "votre-cle-secrete") // Remplacez "votre-cle-secrete" par une clé secrète réelle
                         .compact();
         
-                status = 200;
-                titre = "S'authentification VaikaNet";
-                message = "Vous êtes le bienvenu sur le projet";
                 data.put("token", token); // Ajouter le token dans les données
             } else {
                 throw new Exception("Nom non valide");
