@@ -56,23 +56,27 @@ public class LoginController {
         String message = null;
         Map<String, Object> data = new HashMap<>();
         Vector<String> donnes = new Vector<>();
-            
+    
         try {
             String name = (String) requestBody.get("name");
             donnes.add(name);
             donnes.add((String) requestBody.get("password"));
-        
+    
             if ("judi".equalsIgnoreCase(name)) {
                 // Générer un token JWT
                 status = 200;
                 titre = "S'authentification VaikaNet";
                 message = "Vous êtes le bienvenu sur le projet";
                 String token = Jwts.builder()
-                .setSubject(name)
-                .signWith(SignatureAlgorithm.HS256, "votre-cle-secrete") // Remplacez "votre-cle-secrete" par une clé secrète réelle
-                .compact();
+                        .setSubject(name)
+                        .signWith(SignatureAlgorithm.HS256, "votre-cle-secrete") // Remplacez "votre-cle-secrete" par une clé secrète réelle
+                        .compact();
+                System.out.println("ok");
+                resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
                 resultat.put("token", token); // Ajouter le token dans les données
-        
+    
             } else {
                 throw new Exception("Nom non valide");
             }
@@ -81,11 +85,9 @@ public class LoginController {
             titre = "Authentification a échoué";
             message = e.getMessage();
         } finally {
-            resultat.put("status", status);
-            resultat.put("titre", titre);
-            resultat.put("message", message);
             resultat.put("data", donnes);
-            return resultat;
         }
+    
+        return resultat;
     }
 }
