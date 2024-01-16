@@ -54,9 +54,6 @@ public class LoginController {
         int status = 200;
         String titre = "";
         String message = null;
-        status = 200;
-        titre = "S'authentification VaikaNet";
-        message = "Vous êtes le bienvenu sur le projet";
         Map<String, Object> data = new HashMap<>();
         Vector<String> donnes = new Vector<>();
 
