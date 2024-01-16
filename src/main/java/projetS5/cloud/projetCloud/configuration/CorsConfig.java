@@ -12,7 +12,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("https://65a6fa818c7b4d0008695f85--vaikanet-admin.netlify.app");
+        config.addAllowedOrigin("https://vaikanet-admin.netlify.app/");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
         source.registerCorsConfiguration("/**", config);
