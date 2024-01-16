@@ -3,12 +3,14 @@ package projetS5.cloud.projetCloud.Controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projetS5.cloud.projetCloud.Context.PgsqlContext;
 import projetS5.cloud.projetCloud.Model.DataObjects.Bag;
 import projetS5.cloud.projetCloud.Model.Entities.Admin;
+import projetS5.cloud.projetCloud.Model.JsonDataObjects.Login;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -44,30 +46,31 @@ public class LoginController {
     }
 
     @PostMapping("/log_admin_traitement")
-    public Map initializer(@RequestParam String name,@RequestParam String password) {
-		Map resultat = new HashMap();
-		int status = 0;
-		String titre = null;
-		String message = null;
-		Map data = new HashMap();
-		Vector<String> donnes = new Vector<>();
-		try {
-            donnes.add(name);
-            donnes.add(password);
+   public Map<String, Object> initializer(@RequestBody Login log) {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+        Map<String, Object> data = new HashMap<>();
+        Vector<String> donnes = new Vector<>();
 
-			status = 200;
-			titre = "S'authentification VaikaNet";
-			message = "Vous etes le bienvenue sur le projet";
-		}catch (Exception e) {
-			status = 500;
-			titre = "Prendre des articles a echoue";
-			message = e.getMessage();
-		}finally {
-			resultat.put("status",status);
-			resultat.put("titre",titre);
-			resultat.put("message",message);
-			resultat.put("data",donnes);
-			return resultat;
-		}
-	}
+        try {
+            donnes.add(log.getName());
+            donnes.add(log.getPassword());
+
+            status = 200;
+            titre = "S'authentification VaikaNet";
+            message = "Vous êtes le bienvenue sur le projet";
+        } catch (Exception e) {
+            status = 500;
+            titre = "Prendre des articles a échoué";
+            message = e.getMessage();
+        } finally {
+            resultat.put("status", status);
+            resultat.put("titre", titre);
+            resultat.put("message", message);
+            resultat.put("data", donnes);
+            return resultat;
+        }
+    }
 }
