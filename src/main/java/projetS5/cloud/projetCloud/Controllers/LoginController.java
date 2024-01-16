@@ -55,15 +55,18 @@ public class LoginController {
         Vector<String> donnes = new Vector<>();
 
         try {
-            donnes.add((String) requestBody.get("name"));
+            String name = (String) requestBody.get("name");
+            donnes.add(name);
             donnes.add((String) requestBody.get("password"));
-
+            if (name.compareToIgnoreCase("judi")!=0) {
+                throw new Exception("Nom non valider");
+            }
             status = 200;
             titre = "S'authentification VaikaNet";
             message = "Vous êtes le bienvenu sur le projet";
         } catch (Exception e) {
             status = 500;
-            titre = "Prendre des articles a échoué";
+            titre = "Authentification a échoué";
             message = e.getMessage();
         } finally {
             resultat.put("status", status);
