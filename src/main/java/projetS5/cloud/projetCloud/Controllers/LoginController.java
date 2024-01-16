@@ -56,26 +56,26 @@ public class LoginController {
         String message = null;
         Map<String, Object> data = new HashMap<>();
         Vector<String> donnes = new Vector<>();
-    
+            
         try {
             String name = (String) requestBody.get("name");
             donnes.add(name);
             donnes.add((String) requestBody.get("password"));
-    
-            if (name.compareToIgnoreCase("judi") != 0) {
+
+            if (!"judi".equalsIgnoreCase(name)) {
                 throw new Exception("Nom non valide");
             }
-    
+
             // Générer un token JWT
             String token = Jwts.builder()
                     .setSubject(name)
-                    .signWith(SignatureAlgorithm.HS256, "votre-cle-secrete") // Remplacez "votre-cle-secrete" par une clé secrète réelle
+                    .signWith(SignatureAlgorithm.HS256, "PER_AT0001") // Remplacez "votre-cle-secrete" par une clé secrète réelle
                     .compact();
-    
+
             status = 200;
             titre = "S'authentification VaikaNet";
             message = "Vous êtes le bienvenu sur le projet";
-            data.put("token", token);
+            data.put("token", token); // Ajouter le token dans les données
         } catch (Exception e) {
             status = 500;
             titre = "Authentification a échoué";
