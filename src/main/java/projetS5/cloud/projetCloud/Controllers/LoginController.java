@@ -56,7 +56,7 @@ public class LoginController {
             donnes.add(password);
 
 			status = 200;
-			titre = "Login du VaikaNet";
+			titre = "Bienvenue sur VaikaNet test harivariva";
 			message = "Vous etes le bienvenue sur le projet";
 		}catch (Exception e) {
 			status = 500;
