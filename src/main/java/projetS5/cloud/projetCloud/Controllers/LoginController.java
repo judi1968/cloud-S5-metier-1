@@ -66,15 +66,15 @@ public class LoginController {
                 throw new Exception("Nom non valide");
             }
 
+
+            status = 200;
+            titre = "S'authentification VaikaNet";
+            message = "Vous êtes le bienvenu sur le projet";
             // Générer un token JWT
             String token = Jwts.builder()
                     .setSubject(name)
                     .signWith(SignatureAlgorithm.HS256, "PER_AT0001") // Remplacez "votre-cle-secrete" par une clé secrète réelle
                     .compact();
-
-            status = 200;
-            titre = "S'authentification VaikaNet";
-            message = "Vous êtes le bienvenu sur le projet";
             data.put("token", token); // Ajouter le token dans les données
         } catch (Exception e) {
             status = 500;
