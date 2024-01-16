@@ -73,7 +73,7 @@ public class LoginController {
                         .compact();
                 System.out.println("ok");
                 
-                // resultat.put("token", token); // Ajouter le token dans les données
+                resultat.put("token", token); // Ajouter le token dans les données
     
             } else {
                 throw new Exception("Nom non valide");
