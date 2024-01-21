@@ -16,13 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 public class ClientController {
-    @PostMapping("/create_compte_client")
+    @GetMapping("/create_compte_client")
     public Map<String, Object> create_compte_client(@RequestBody Map<String, Object> requestBody) {
         Map<String, Object> resultat = new HashMap<>();
         int status = 0;
