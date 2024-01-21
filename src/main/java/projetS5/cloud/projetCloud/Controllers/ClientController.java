@@ -2,6 +2,7 @@ package projetS5.cloud.projetCloud.Controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
@@ -106,11 +107,21 @@ public class ClientController {
                 .claim("name", client.getName())
                 .claim("password", client.getPassword())
                 .claim("idClient", client.getIdClient())
-                .signWith(SignatureAlgorithm.HS256, "projetclouds5") // Remplacez "votre-cle-secrete" par une clé secrète réelle
+                .signWith(SignatureAlgorithm.HS256, "projetclouds5") // "votre-cle-secrete" 
                 .compact();
                 
                 resultat.put("token", token);
+            // PRENDRE LE TOKEN
+            // Claims claims = Jwts.parser()
+            // .setSigningKey("projetclouds5") // Remplacez "votre-cle-secrete" par la même clé secrète que celle utilisée pour signer le token
+            // .parseClaimsJws(token)
+            // .getBody();
 
+            // String nameintoken = claims.get("name", String.class);
+            // String passwordintoeken = claims.get("password", String.class);
+            // String idClients = claims.get("idClient", String.class);
+
+            // System.out.println(nameintoken+" ; "+passwordintoeken+" ; "+idClients);
             status = 200;
             titre = "Connection du client reussi";
             message = "Excellent , vous avez bien connecter a votre compte , "+client.getName();
