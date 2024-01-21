@@ -80,10 +80,9 @@ public class ClientController {
         String titre = null;
         String message = null;
         Map<String, Object> donnes = new HashMap<>();
-    
+        String name = (String) requestBody.get("username");
+        String password = (String) requestBody.get("password");
         try {
-            String name = (String) requestBody.get("username");
-            String password = (String) requestBody.get("password");
             name = name.trim();
             password = password.trim();
             if(name.length()==0 && password.length()==0){
@@ -99,25 +98,22 @@ public class ClientController {
             client.setName(name);
             client.setPassword(password);
             Connection connection = ConnectionPostgres.connectDefault();
-            if (client.clientisExist(connection)) {
-                throw new Exception("Modifier l'information s'il vous plait");
-            }
-            //client.addNewClient(connection);
+            client.connect(connection);
             status = 200;
-            titre = "Creation de compte a fait avec succees";
-            message = "Excellent , votre compte a ete bien creer";
-            donnes.put("name", name);
-            donnes.put("password", password);
+            titre = "Connection du client reussi";
+            message = "Excellent , vous avez bien connecter a votre compte , "+client.getName();
             
         } catch (Exception e) {
             status = 500;
-            titre = "Creation de compte a echoue";
+            titre = "Connection de compte a echoue";
             message = e.getMessage();
         } finally {
+            donnes.put("name", name);
+            donnes.put("password", password);
             resultat.put("data", donnes);
             resultat.put("status", status);
-                resultat.put("titre", titre);
-                resultat.put("message", message);
+            resultat.put("titre", titre);
+            resultat.put("message", message);
         }
     
         return resultat;

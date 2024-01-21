@@ -140,5 +140,53 @@ public class Client {
 		}
         return isExist;
     }
+
+    public void connect(Connection connection) throws Exception{
+        String query = "select * from client where name= ? and password= ?";
+        PreparedStatement statement = null;
+		ResultSet resultset= null;
+		boolean statementOpen = false;
+		boolean resultsetOpen = false;
+		boolean closeable = false;
+        boolean isExist = false;
+        String idClient = "";
+		try {
+            if(connection==null) {
+                connection = ConnectionPostgres.connectDefault();
+				connection.setAutoCommit(false);
+                closeable = true;
+			}
+			
+			statement = connection.prepareStatement(query);
+            statement.setString(1, this.getName());
+			statement.setString(2, this.getPassword());
+
+			statementOpen = true;
+			
+			resultset = statement.executeQuery();
+
+            while (resultset.next()) {
+                idClient = resultset.getString("id_client");
+            }
+            if (idClient.length()==0) {
+                throw new Exception("Connection echoue");
+            }
+            setIdClient(idClient);
+            statement.close();
+		}catch (Exception e) {
+			throw e;
+		}finally {
+			if(statementOpen) {
+				statement.close();
+			}
+			if(resultsetOpen) {
+				resultset.close();
+			}
+			if(closeable) {
+				connection.commit();
+				connection.close();
+			}
+		}
+    }
 }
 
