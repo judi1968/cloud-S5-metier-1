@@ -72,4 +72,54 @@ public class ClientController {
         return resultat;
     }
     
+    // login client
+    @PostMapping("/authentification_client")
+    public Map<String, Object> authentification_client(@RequestBody Map<String, Object> requestBody) {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+        Map<String, Object> donnes = new HashMap<>();
+    
+        try {
+            String name = (String) requestBody.get("username");
+            String password = (String) requestBody.get("password");
+            name = name.trim();
+            password = password.trim();
+            if(name.length()==0 && password.length()==0){
+                throw new Exception("Nom et mot de passe invalide");
+            }else
+            if (name.length()==0) {
+                throw new Exception("Nom invalide");
+            }else
+            if (password.length()==0) {
+                throw new Exception("Mot de passe invalide");
+            }
+            Client client = new Client();
+            client.setName(name);
+            client.setPassword(password);
+            Connection connection = ConnectionPostgres.connectDefault();
+            if (client.clientisExist(connection)) {
+                throw new Exception("Modifier l'information s'il vous plait");
+            }
+            //client.addNewClient(connection);
+            status = 200;
+            titre = "Creation de compte a fait avec succees";
+            message = "Excellent , votre compte a ete bien creer";
+            donnes.put("name", name);
+            donnes.put("password", password);
+            
+        } catch (Exception e) {
+            status = 500;
+            titre = "Creation de compte a echoue";
+            message = e.getMessage();
+        } finally {
+            resultat.put("data", donnes);
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
+        }
+    
+        return resultat;
+    }
 }
