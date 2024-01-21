@@ -1,0 +1,8 @@
+<!-- connectionPostgres.xml -->
+<connectionConfig>
+    <ip>localhost</ip>
+    <port>5432</port>
+    <databaseName>vaikanet</databaseName>
+    <userName>postgres</userName>
+    <password>mdpprom15</password>
+</connectionConfig>
