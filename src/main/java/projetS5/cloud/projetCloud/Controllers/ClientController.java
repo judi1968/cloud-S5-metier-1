@@ -99,6 +99,18 @@ public class ClientController {
             client.setPassword(password);
             Connection connection = ConnectionPostgres.connectDefault();
             client.connect(connection);
+
+            // si le connection est reussi
+            String token = Jwts.builder()
+                .setSubject("tokentheclient")
+                .claim("name", client.getName())
+                .claim("password", client.getPassword())
+                .claim("idClient", client.getIdClient())
+                .signWith(SignatureAlgorithm.HS256, "projetclouds5") // Remplacez "votre-cle-secrete" par une clé secrète réelle
+                .compact();
+                
+                resultat.put("token", token);
+
             status = 200;
             titre = "Connection du client reussi";
             message = "Excellent , vous avez bien connecter a votre compte , "+client.getName();
