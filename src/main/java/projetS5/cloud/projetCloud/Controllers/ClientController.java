@@ -33,12 +33,24 @@ public class ClientController {
         try {
             String name = (String) requestBody.get("name");
             String password = (String) requestBody.get("password");
+            name = name.trim();
+            password = password.trim();
+            if(name.length()==0 && password.length()==0){
+                throw new Exception("Nom et mot de passe invalide");
+            }else
+            if (name.length()==0) {
+                throw new Exception("Nom invalide");
+            }else
+            if (password.length()==0) {
+                throw new Exception("Mot de passe invalide");
+            }
             Client client = new Client();
             client.setName(name);
             client.setPassword(password);
             Connection connection = ConnectionPostgres.connectDefault();
-            // ConnectionPostgres.loadConfigFromXML();
-            // System.out.println("IP : "+ConnectionPostgres.getIp()+" ; PORT : "+ConnectionPostgres.getPort()+" ; USERNAME : "+ConnectionPostgres.getUserName()+" ; PASSWORD : "+ConnectionPostgres.getPassword()+" ; DATABASE : "+ConnectionPostgres.getDatabaseName());
+            if (client.clientisExist(connection)) {
+                throw new Exception("Modifier l'information s'il vous plait");
+            }
             client.addNewClient(connection);
             status = 200;
             titre = "Creation de compte a fait avec succees";
