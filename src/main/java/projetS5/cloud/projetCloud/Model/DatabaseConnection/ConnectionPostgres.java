@@ -50,11 +50,11 @@ public class ConnectionPostgres {
         return userName;
     }
 
-     private static void loadConfigFromXML() {
+     public static void loadConfigFromXML() {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse("connectionPostgres.xml");
+            Document document = builder.parse("./connectionPostgres.xml");
 
             Element root = document.getDocumentElement();
             NodeList nodeList = root.getChildNodes();
@@ -90,7 +90,7 @@ public class ConnectionPostgres {
 
     public static Connection connectDefault() throws Exception{
         ConnectionPostgres.loadConfigFromXML();
-        return ConnectionPostgres.connect(ConnectionPostgres.getIp(), ConnectionPostgres.getPort(), ConnectionPostgres.getDatabaseName(), ConnectionPostgres.getUserName(), ConnectionPostgres.getDatabaseName());    
+        return ConnectionPostgres.connect(ConnectionPostgres.getIp(), ConnectionPostgres.getPort(), ConnectionPostgres.getDatabaseName(), ConnectionPostgres.getUserName(), ConnectionPostgres.getPassword());    
     }
     public static Connection connect(String ip,int port,String databaseName,String userName,String password) throws Exception{
         Class.forName("org.postgresql.Driver");
