@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class ClientController {
-    @PostMapping("create_compte_client")
+    @PostMapping("/create_compte_client")
     public Map<String, Object> create_compte_client(@RequestBody Map<String, Object> requestBody) {
         Map<String, Object> resultat = new HashMap<>();
         int status = 0;
