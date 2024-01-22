@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import projetS5.cloud.projetCloud.Context.PgConnection;
 import projetS5.cloud.projetCloud.Model.Bag;
 import projetS5.cloud.projetCloud.Model.DatabaseConnection.ConnectionPostgres;
@@ -182,5 +185,42 @@ public class VoitureController {
         return bag;
     }
 
+    // ---------------- CREATE -----------------------------------------------------------
+    @PostMapping("/categorie")
+    public Map<String, Object> createCategorie(@RequestBody Map<String, Object> requestBody) {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+        Map<String, Object> data = new HashMap<>();
+        Vector<String> donnes = new Vector<>();
+    
+        try {
+            String name = (String) requestBody.get("nom");
+            String description = (String) requestBody.get("description");
 
+            donnes.add(name);
+            donnes.add(description);
+            CategorieVoiture categorieVoiture = new CategorieVoiture();
+            categorieVoiture.setNom(name);
+            categorieVoiture.setDescription(description);
+            categorieVoiture.create(ConnectionPostgres.connectDefault());
+    
+           
+            status = 200;
+            titre = "Creation de categorie effectue";
+            message = "Bravo , vous avez creer une nouvelle categorie de voiture";
+        } catch (Exception e) {
+            status = 500;
+            titre = "Creation de categorie a échoué";
+            message = e.getMessage();
+        } finally {
+            resultat.put("data", donnes);
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
+        }
+    
+        return resultat;
+    }   
 }
