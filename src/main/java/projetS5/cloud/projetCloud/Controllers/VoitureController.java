@@ -30,22 +30,26 @@ public class VoitureController {
         String message = null;
         Map<String, Object> donnes = new HashMap<>();
         Vector donne = new Vector();
+        //
         donne.add("categories");
         donne.add("marques");
         donne.add("types-carburant");
-        donne.add("transmission");
+        donne.add("transmissions");
+        donne.add("freinages");
+        donne.add("equipements-internes");
+          
         try {
            
             status = 200;
             titre = "Prendre les elements necessaire a reussi";
-            message = "Excellent , votre compte a ete bien creer";
+            message = "Excellent , vous avez prendre tout les elements necessaire ";
             
         } catch (Exception e) {
             status = 500;
-            titre = "Creation de compte a echoue";
+            titre = "Prendre de l'element necessaire a echoue a echoue";
             message = e.getMessage();
         } finally {
-            resultat.put("data", donnes);
+            resultat.put("data", donne);
             resultat.put("status", status);
                 resultat.put("titre", titre);
                 resultat.put("message", message);
@@ -139,7 +143,7 @@ public class VoitureController {
     }
 
 
-    @GetMapping("liste-freinages")
+    @GetMapping("freinages")
     public Bag ListeFreinageVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -159,7 +163,7 @@ public class VoitureController {
         return bag;
     }
 
-    @GetMapping("liste-equipements-internes")
+    @GetMapping("equipements-internes")
     public Bag ListeEquipemenstInternesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
