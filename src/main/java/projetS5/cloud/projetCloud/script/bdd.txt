@@ -1,0 +1,34 @@
+
+
+personne(id, nom, prenom, age, sexe, telephone, address)
+personne_autentification(id, email, mot_passe, personne_id, is_admin)
+
+categorie_voiture(id, nom, description)
+marque_voiture(id, nom, description, date_creation)
+type_carburant_voiture(id, nom)
+transmission_voiture(id, nom)
+freignage_voiture(id, nom)
+equipement_interne(id, nom)
+photos(id, nom)
+
+voiture(id, annee_fabrication, couleur, consommation, categorie_voiture_id, marque_voiture_id, type_carburant_id
+        transmission_voiture_id, freignage_voiture_id)
+voiture_prix(id, prix, date, voiture_id)
+voiture_equipement_interne(voiture_id, equipement_interne_id)
+voiture_photos(voiture_id, photos_id)
+
+        annonce
+annonce(id, date_debut, date_fin, voiture_id, code_annonce, personne_autentification_id)
+annonce_valide(id, date, annonce_id, personne_autentification_id)
+
+        commission
+commission(id, prix_min, prix_max, taux_commission, date)
+
+        vente
+remise(id, taux_remise, date_debut, date_fin, person_autentification_id)
+remise_voiture(id, remise_id, voiture_id)
+vente(id, voiture_id, prix_vente, prix_final, taux_commission, remise_id, date, utilisateur_id)
+
+
+
+

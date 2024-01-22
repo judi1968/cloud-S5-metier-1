@@ -1,0 +1,18 @@
+1.CRUD :
+    categorie_voiture
+    marque_voiture
+    type_carburant_voiture
+    transmission_voiture
+    freignage_voiture
+    equipement_interne
+
+2.Creation annonce
+    -creation voiture
+    -creation prix voiture
+    -creation annonce
+
+
+3.Liste des annonces validees
+    -Liste
+    -Recherche :
+    -Triage : par prix,...
