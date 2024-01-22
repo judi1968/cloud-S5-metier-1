@@ -69,4 +69,11 @@ public class CategorieVoiture {
 
         prstmt.executeUpdate();
     }
+
+    public void delete(Connection connection) throws Exception {
+        String sql = "delete from categorie_voiture WHERE id = ?";
+        PreparedStatement prstmt = connection.prepareStatement(sql);
+        prstmt.setString(1, getId());
+        prstmt.executeUpdate();
+    }
 }

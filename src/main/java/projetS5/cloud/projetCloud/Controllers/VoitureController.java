@@ -2,6 +2,7 @@ package projetS5.cloud.projetCloud.Controllers;
 
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -298,6 +299,42 @@ public class VoitureController {
             status = 200;
             titre = "Modification de categorie effectue";
             message = "Bravo , vous avez modifier une categorie de voiture";
+        } catch (Exception e) {
+            status = 500;
+            titre = "Modification de categorie a échoué";
+            message = e.getMessage();
+        } finally {
+            resultat.put("data", donnes);
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
+        }
+    
+        return resultat;
+    }
+
+    @DeleteMapping("categorie/{id}")
+    public Map deletcategorie(@PathVariable String id,@RequestBody Map<String, Object> requestBody) {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+        Map<String, Object> data = new HashMap<>();
+        Vector<String> donnes = new Vector<>();
+        //status = 200; // Modification réussie
+        //status = 400; // Mauvaise requête
+        // status = 500; // Erreur interne du serveur
+
+        try {
+
+            CategorieVoiture categorieVoiture = new CategorieVoiture();
+            categorieVoiture.setId(id);
+            categorieVoiture.delete(ConnectionPostgres.connectDefault());
+    
+           
+            status = 200;
+            titre = "Suppression de categorie effectue";
+            message = "Bravo , vous avez supprimer une categorie de voiture";
         } catch (Exception e) {
             status = 500;
             titre = "Modification de categorie a échoué";
