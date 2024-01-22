@@ -30,7 +30,6 @@ public class VoitureController {
         String message = null;
         Map<String, Object> donnes = new HashMap<>();
         Vector donne = new Vector();
-        //
         donne.add("categories");
         donne.add("marques");
         donne.add("types-carburant");
