@@ -6,7 +6,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
-import projetS5.cloud.projetCloud.Model.DataObjects.Bag;
 import projetS5.cloud.projetCloud.Model.DatabaseConnection.ConnectionPostgres;
 import projetS5.cloud.projetCloud.Model.Entities.Admin;
 import projetS5.cloud.projetCloud.Model.Objects.Client;
