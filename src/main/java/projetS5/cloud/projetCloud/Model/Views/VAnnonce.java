@@ -1,6 +1,7 @@
-package com.example.back_office.Model.Views;
+package projetS5.cloud.projetCloud.Model.Views;
 
-import com.example.back_office.Model.Tables.*;
+
+import projetS5.cloud.projetCloud.Model.Tables.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

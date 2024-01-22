@@ -1,4 +1,4 @@
-package com.example.back_office.Model.Tables;
+package projetS5.cloud.projetCloud.Model.Tables;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,16 +1,14 @@
-package com.example.back_office.Controller;
+package projetS5.cloud.projetCloud.Controllers;
 
-import com.example.back_office.Context.PgConnection;
-import com.example.back_office.Model.Bag;
-import com.example.back_office.Model.Tables.Annonce;
-import com.example.back_office.Model.Tables.AnnonceValidee;
-import com.example.back_office.Model.Tables.Voiture;
-import com.example.back_office.Model.Tables.VoiturePrix;
-import com.example.back_office.Model.Views.VAnnonce;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import projetS5.cloud.projetCloud.Context.PgConnection;
+import projetS5.cloud.projetCloud.Model.Bag;
+import projetS5.cloud.projetCloud.Model.Tables.*;
+import projetS5.cloud.projetCloud.Model.Views.VAnnonce;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -21,7 +19,7 @@ import java.util.List;
 public class AnnonceController {
 
     @PostMapping("create")
-    public Bag create(@RequestBody double prix, @RequestBody String code_annonce, @RequestBody Date date, @RequestBody Date annee_fabrication,@RequestBody String couleur, @RequestBody double consommation, @RequestBody String categorie_voiture_id, @RequestBody String marque_voiture_id, @RequestBody String type_carburant_voiture_id, @RequestBody String transmission_voiture_id, @RequestBody String freignage_voiture_id  ) throws Exception {
+    public Bag create(@RequestBody double prix, @RequestBody String code_annonce, @RequestBody Date date, @RequestBody Date annee_fabrication, @RequestBody String couleur, @RequestBody double consommation, @RequestBody String categorie_voiture_id, @RequestBody String marque_voiture_id, @RequestBody String type_carburant_voiture_id, @RequestBody String transmission_voiture_id, @RequestBody String freignage_voiture_id  ) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
         try {

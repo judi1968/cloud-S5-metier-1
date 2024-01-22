@@ -1,4 +1,4 @@
-package com.example.back_office.Model;
+package projetS5.cloud.projetCloud.Model;
 
 public class Bag {
 

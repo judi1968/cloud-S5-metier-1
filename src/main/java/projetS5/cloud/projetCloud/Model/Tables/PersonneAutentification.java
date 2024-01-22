@@ -1,4 +1,4 @@
-package com.example.back_office.Model.Tables;
+package projetS5.cloud.projetCloud.Model.Tables;
 
 public class PersonneAutentification extends Personne{
 
