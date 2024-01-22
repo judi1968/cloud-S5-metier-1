@@ -50,6 +50,9 @@ public class AnnonceValidee {
         this.setAnnonceId(annonceId);
         this.setPersonneAuthId(personneAuthId);
     }
+    public AnnonceValidee(Date dateValidation) {
+        this.setDateValidation(dateValidation);
+    }
 
     public AnnonceValidee() {
 

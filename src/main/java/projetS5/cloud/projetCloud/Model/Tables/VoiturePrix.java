@@ -48,6 +48,10 @@ public class VoiturePrix {
         this.setVoitureId(voitureId);
     }
 
+    public VoiturePrix(double prix) {
+        this.setPrix(prix);
+    }
+
     public void create(Connection connection) throws Exception {
         String sql = "INSERT INTO voiture_prix(date, prix, voiture_id) VALUES (?, ?, ?)";
         try (PreparedStatement prstmt = connection.prepareStatement(sql)) {

@@ -34,7 +34,7 @@ CREATE TABLE personne(
     id VARCHAR PRIMARY KEY DEFAULT custom_seq('PER'::character varying, 'personne_id_seq'::character varying, 4) NOT NULL ,
     nom VARCHAR (50) NOT NULL ,
     prenom VARCHAR (50) NOT NULL ,
-    age INTEGER NOT NULL ,
+    date_naissance DATE NOT NULL ,
     sexe INTEGER ,
     telephone VARCHAR (10) ,
     address VARCHAR (30)

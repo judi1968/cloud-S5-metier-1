@@ -58,8 +58,31 @@ public class AnnonceController {
         Bag bag = new Bag(null, null, null);
         try {
             connection = PgConnection.connect();
-            List<VAnnonce> annonceValideeList = new VAnnonce().read(connection);
-            bag = new Bag(null, null, annonceValideeList);
+            List<VAnnonce> annoncesValideesList = new VAnnonce().getAnnoncesValidees(connection);
+            bag = new Bag(null, null, annoncesValideesList);
+        }
+        catch (Exception e) {
+            connection.rollback();
+            bag = new Bag("Insertion", e.getMessage(), null);
+        }
+        finally {
+            if (!connection.isClosed() && connection != null)
+                connection.close();
+        }
+
+        return bag;
+    }
+
+    @PostMapping("validees-liste-par-prix")
+    public Bag ListeAnnonceValideeByPrix(@RequestBody double min_prix, @RequestBody double max_prix) throws Exception {
+
+        Connection connection = null;
+        Bag bag = new Bag(null, null, null);
+        try {
+            connection = PgConnection.connect();
+            List<VAnnonce> annonceValideesList = new VAnnonce().getAnnoncesValidees(connection);
+            List<VAnnonce> annoncesValideesList1 = new VAnnonce().getAnnoncesValideesBetweenPrices(annonceValideesList, min_prix, max_prix);
+            bag = new Bag(null, null, annoncesValideesList1);
         }
         catch (Exception e) {
             connection.rollback();
