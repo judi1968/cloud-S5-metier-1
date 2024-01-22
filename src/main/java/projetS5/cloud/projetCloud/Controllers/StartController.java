@@ -18,7 +18,7 @@ public class StartController {
 		Map data = new HashMap();
 		Vector<String> donnes = new Vector<>();
 		try {
-            donnes.add("huhu");
+            donnes.add("Hello");
             donnes.add("Salama");
             donnes.add("Bonjour");
 
