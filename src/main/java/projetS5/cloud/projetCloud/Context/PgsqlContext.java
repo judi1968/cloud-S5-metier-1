@@ -1,7 +1,8 @@
 package projetS5.cloud.projetCloud.Context;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+
+import projetS5.cloud.projetCloud.Model.DatabaseConnection.ConnectionPostgres;
 
 public class PgsqlContext {
 
@@ -12,8 +13,6 @@ public class PgsqlContext {
 
     public static Connection connect() throws Exception {
 
-        String url = "jdbc:postgresql://"+host+"/"+database;
-        Connection connection = DriverManager.getConnection(url, user, password);
-        return connection;
+        return ConnectionPostgres.connectDefault();
     }
 }

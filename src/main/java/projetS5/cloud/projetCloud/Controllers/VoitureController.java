@@ -2,6 +2,7 @@ package projetS5.cloud.projetCloud.Controllers;
 
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,30 +16,34 @@ import java.sql.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("voiture")
 public class VoitureController {
 
-    @PostMapping("liste-categories")
+    @GetMapping("liste-categories")
     public Bag ListCategoriesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
+        int status = 0;
         try {
             connection = PgConnection.connect();
             List<CategorieVoiture> categorieVoitureList = new CategorieVoiture().read(connection);
             bag = new Bag(null, null, categorieVoitureList);
+            status = 200;
         }
         catch (Exception e) {
             bag = new Bag("Selection", e.getMessage(), null);
+            status = 500;
         }
         finally {
-            if (!connection.isClosed() && connection != null)
+            if (connection!=null) {   
+                if (!connection.isClosed() && connection != null)
                 connection.close();
+            }
         }
 
         return bag;
     }
 
-    @PostMapping("liste-marques")
+    @GetMapping("liste-marques")
     public Bag ListeMarquesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -58,7 +63,7 @@ public class VoitureController {
         return bag;
     }
 
-    @PostMapping("liste-types-carburant")
+    @GetMapping("liste-types-carburant")
     public Bag ListeTypesCarburantsVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -78,7 +83,7 @@ public class VoitureController {
         return bag;
     }
 
-    @PostMapping("liste-transmissions")
+    @GetMapping("liste-transmissions")
     public Bag ListeTransmissionsVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -99,7 +104,7 @@ public class VoitureController {
     }
 
 
-    @PostMapping("liste-freinages")
+    @GetMapping("liste-freinages")
     public Bag ListeFreinageVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -119,7 +124,7 @@ public class VoitureController {
         return bag;
     }
 
-    @PostMapping("liste-equipements-internes")
+    @GetMapping("liste-equipements-internes")
     public Bag ListeEquipemenstInternesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
