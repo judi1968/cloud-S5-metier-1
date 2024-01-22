@@ -9,16 +9,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import projetS5.cloud.projetCloud.Context.PgConnection;
 import projetS5.cloud.projetCloud.Model.Bag;
+import projetS5.cloud.projetCloud.Model.DatabaseConnection.ConnectionPostgres;
+import projetS5.cloud.projetCloud.Model.Objects.Client;
 import projetS5.cloud.projetCloud.Model.Tables.*;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 @RestController
 public class VoitureController {
-
-    @GetMapping("liste-categories")
+    @GetMapping("element_necessaire")
+    public Map<String, Object> element_necessaire() {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+        Map<String, Object> donnes = new HashMap<>();
+        Vector donne = new Vector();
+        donne.add("categories");
+        donne.add("marques");
+        donne.add("types-carburant");
+        donne.add("transmission");
+        try {
+           
+            status = 200;
+            titre = "Prendre les elements necessaire a reussi";
+            message = "Excellent , votre compte a ete bien creer";
+            
+        } catch (Exception e) {
+            status = 500;
+            titre = "Creation de compte a echoue";
+            message = e.getMessage();
+        } finally {
+            resultat.put("data", donnes);
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
+        }
+    
+        return resultat;
+    }
+    @GetMapping("categories")
     public Bag ListCategoriesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -43,7 +78,7 @@ public class VoitureController {
         return bag;
     }
 
-    @GetMapping("liste-marques")
+    @GetMapping("marques")
     public Bag ListeMarquesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -63,7 +98,7 @@ public class VoitureController {
         return bag;
     }
 
-    @GetMapping("liste-types-carburant")
+    @GetMapping("types-carburant")
     public Bag ListeTypesCarburantsVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -83,7 +118,7 @@ public class VoitureController {
         return bag;
     }
 
-    @GetMapping("liste-transmissions")
+    @GetMapping("transmissions")
     public Bag ListeTransmissionsVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
