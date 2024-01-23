@@ -314,7 +314,7 @@ public class VoitureController {
     }
 
     @DeleteMapping("categorie/{id}")
-    public Map deletcategorie(@PathVariable String id,@RequestBody Map<String, Object> requestBody) {
+    public Map deletcategorie(@PathVariable String id) {
         Map<String, Object> resultat = new HashMap<>();
         int status = 0;
         String titre = null;
