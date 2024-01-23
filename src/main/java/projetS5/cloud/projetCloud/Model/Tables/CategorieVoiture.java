@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import projetS5.cloud.projetCloud.Model.DatabaseConnection.ConnectionPostgres;
+
 public class CategorieVoiture {
     String id;
     String nom;
@@ -41,8 +43,11 @@ public class CategorieVoiture {
         prtmt.executeUpdate();
     }
 
-    public List<CategorieVoiture> read(Connection connection) throws SQLException {
+    public List<CategorieVoiture> read(Connection connection) throws Exception {
         List<CategorieVoiture> categorieVoitureList = new ArrayList<>();
+        if (connection==null) {
+            connection = ConnectionPostgres.connectDefault();
+        }
         Statement statement = connection.createStatement();
         ResultSet rs = statement.executeQuery("SELECT *FROM categorie_voiture");
         while (rs.next()) {
@@ -55,7 +60,7 @@ public class CategorieVoiture {
         return categorieVoitureList;
     }
 
-    public void update(Connection connection) throws SQLException {
+    public void update(Connection connection) throws Exception {
         String sql = "UPDATE categorie_voiture SET nom = ? , description = ? WHERE id =?";
         PreparedStatement prstmt = connection.prepareStatement(sql);
         prstmt.setString(1, getNom());

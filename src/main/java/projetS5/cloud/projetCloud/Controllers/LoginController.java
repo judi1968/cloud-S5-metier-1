@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import projetS5.cloud.projetCloud.Context.PgsqlContext;
+import projetS5.cloud.projetCloud.Model.Bag;
 import projetS5.cloud.projetCloud.Model.Entities.Admin;
 import projetS5.cloud.projetCloud.Model.JsonDataObjects.Login;
 
@@ -31,12 +32,12 @@ public class LoginController {
         String message = null;
         Map<String, Object> data = new HashMap<>();
         Vector<String> donnes = new Vector<>();
-    
+
         try {
             String name = (String) requestBody.get("name");
             donnes.add(name);
             donnes.add((String) requestBody.get("password"));
-    
+
             if ("judi".equalsIgnoreCase(name)) {
                 // Générer un token JWT
                 status = 200;
@@ -47,9 +48,9 @@ public class LoginController {
                         .signWith(SignatureAlgorithm.HS256, "votre-cle-secrete") // Remplacez "votre-cle-secrete" par une clé secrète réelle
                         .compact();
                 System.out.println("ok");
-                
+
                 resultat.put("token", token); // Ajouter le token dans les données
-    
+
             } else {
                 throw new Exception("Nom non valide");
             }
@@ -63,7 +64,7 @@ public class LoginController {
                 resultat.put("titre", titre);
                 resultat.put("message", message);
         }
-    
+
         return resultat;
     }
 }

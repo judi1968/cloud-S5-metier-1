@@ -2,43 +2,86 @@ package projetS5.cloud.projetCloud.Controllers;
 
 import org.springframework.beans.factory.support.ManagedList;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import projetS5.cloud.projetCloud.Context.PgConnection;
 import projetS5.cloud.projetCloud.Model.Bag;
+import projetS5.cloud.projetCloud.Model.DatabaseConnection.ConnectionPostgres;
+import projetS5.cloud.projetCloud.Model.Objects.Client;
 import projetS5.cloud.projetCloud.Model.Tables.*;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 @RestController
-@RequestMapping("voiture")
 public class VoitureController {
-
-    @PostMapping("liste-categories")
+    @GetMapping("element_necessaire")
+    public Map<String, Object> element_necessaire() {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+        Map<String, Object> donnes = new HashMap<>();
+        Vector donne = new Vector();
+        donne.add("categories");
+        donne.add("marques");
+        donne.add("types-carburant");
+        donne.add("transmissions");
+        donne.add("freinages");
+        donne.add("equipements-internes");
+          
+        try {
+           
+            status = 200;
+            titre = "Prendre les elements necessaire a reussi";
+            message = "Excellent , vous avez prendre tout les elements necessaire ";
+            
+        } catch (Exception e) {
+            status = 500;
+            titre = "Prendre de l'element necessaire a echoue a echoue";
+            message = e.getMessage();
+        } finally {
+            resultat.put("data", donne);
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
+        }
+    
+        return resultat;
+    }
+    @GetMapping("categories")
     public Bag ListCategoriesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
+        int status = 0;
         try {
             connection = PgConnection.connect();
             List<CategorieVoiture> categorieVoitureList = new CategorieVoiture().read(connection);
             bag = new Bag(null, null, categorieVoitureList);
+            status = 200;
         }
         catch (Exception e) {
             bag = new Bag("Selection", e.getMessage(), null);
+            status = 500;
         }
         finally {
-            if (!connection.isClosed() && connection != null)
+            if (connection!=null) {   
+                if (!connection.isClosed() && connection != null)
                 connection.close();
+            }
         }
 
         return bag;
     }
 
-    @PostMapping("liste-marques")
+    @GetMapping("marques")
     public Bag ListeMarquesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -58,7 +101,7 @@ public class VoitureController {
         return bag;
     }
 
-    @PostMapping("liste-types-carburant")
+    @GetMapping("types-carburant")
     public Bag ListeTypesCarburantsVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -78,7 +121,7 @@ public class VoitureController {
         return bag;
     }
 
-    @PostMapping("liste-transmissions")
+    @GetMapping("transmissions")
     public Bag ListeTransmissionsVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -99,7 +142,7 @@ public class VoitureController {
     }
 
 
-    @PostMapping("liste-freinages")
+    @GetMapping("freinages")
     public Bag ListeFreinageVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
@@ -119,7 +162,7 @@ public class VoitureController {
         return bag;
     }
 
-    @PostMapping("liste-equipements-internes")
+    @GetMapping("equipements-internes")
     public Bag ListeEquipemenstInternesVoiture(Model model) throws Exception {
         Connection connection = null;
         Bag bag = new Bag(null, null, null);
