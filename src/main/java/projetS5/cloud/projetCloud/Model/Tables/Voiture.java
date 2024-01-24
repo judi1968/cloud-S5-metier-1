@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Date;
 import java.util.List;
 
@@ -119,9 +120,9 @@ public class Voiture {
 
     public String create(Connection connection) throws Exception {
         String sql = "INSERT INTO voiture (annee_fabrication, couleur, consommation, categorie_voiture_id, marque_voiture_id, type_carburant_id, transmission_voiture_id, freignage_voiture_id) VALUES" +
-                "(?, ?, ?, ?, ?, ?, ?, ?) RETURNING voiture_id";
-        try (PreparedStatement prstmt = connection.prepareStatement(sql)) {
-
+                      "(?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        try (PreparedStatement prstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+    
             prstmt.setDate(1, getAnneeFabrication());
             prstmt.setString(2, getCouleur());
             prstmt.setDouble(3, getConsommation());
@@ -130,13 +131,18 @@ public class Voiture {
             prstmt.setString(6, getTypeCarburantId());
             prstmt.setString(7, getTransmissionVoitureId());
             prstmt.setString(8, getFreignageVoitureId());
-
-            try (ResultSet rs = prstmt.executeQuery(sql)) {
-                if (rs.next()) {
-                    return rs.getString("voiture_id");
+            
+            int affectedRows = prstmt.executeUpdate();
+    
+            if (affectedRows > 0) {
+                try (ResultSet rs = prstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getString(1);
+                    }
                 }
             }
         }
         return null;
     }
+    
 }

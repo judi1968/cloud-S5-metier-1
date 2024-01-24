@@ -23,6 +23,35 @@ import java.util.Vector;
 
 @RestController
 public class AnnonceController {
+    @PostMapping("annonce_valide")
+    public Map<String, Object> validerAnnonce(@RequestBody Map<String, Object> requestBody) {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+    
+        try {
+
+            String annonce_id = (String) requestBody.get("id_annonce"); 
+            
+            CreateAnnonceValidee(annonce_id);
+            status = 200;
+            titre = "Mise a jour de l'annonce en validation";
+            message = "Excellent , vous avez valider un publication";
+        } catch (Exception e) {
+            status = 500;
+            titre = "Validation de l'annonce a echoue";
+            message = e.getMessage();
+            e.printStackTrace();
+        } finally {
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
+        }
+    
+        return resultat;
+    }
+    
     @PostMapping("annonce")
     public Map<String, Object> createNewAnnonce(@RequestBody Map<String, Object> requestBody) {
         Map<String, Object> resultat = new HashMap<>();
@@ -32,13 +61,13 @@ public class AnnonceController {
     
         try {
 
-            double prix = Double.parseDouble((String) requestBody.get("prix")); 
+            double prix = Double.parseDouble((String) requestBody.get("prix").toString()); 
             String code_annonce = "0000";
             Date annee_fabrication = Date.valueOf((String) requestBody.get("annee_fabrication"));
             String couleur = (String) requestBody.get("couleur");
-            double consommation = Double.parseDouble((String) requestBody.get("consommation"));
-            String categorie_voiture_id = (String) requestBody.get("categorie_voiture");
-            String marque_voiture_id = (String) requestBody.get("marque_voiture");
+            double consommation = Double.parseDouble((String) requestBody.get("consommation").toString());
+            String categorie_voiture_id = (String) requestBody.get("categorie_voiture_id");
+            String marque_voiture_id = (String) requestBody.get("marque_voiture_id");
             String type_carburant_voiture = (String) requestBody.get("type_carburant_voiture");
             String transmission_voiture = (String) requestBody.get("transmission_voiture");
             String freignage_voiture = (String) requestBody.get("freignage_voiture");
@@ -52,6 +81,7 @@ public class AnnonceController {
             status = 500;
             titre = "Creation de l'annonce a echoue";
             message = e.getMessage();
+            e.printStackTrace();
         } finally {
             resultat.put("status", status);
                 resultat.put("titre", titre);
@@ -73,7 +103,7 @@ public class AnnonceController {
         voiturePrix.create(connection);//Insertion prix de voiture
 
         Date dateDebutAnnonce = new Date(new java.util.Date().getTime());//Date Actuel
-        String perAuth = null;//SESSION
+        String perAuth = "PER_AT0001";//SESSION
         Annonce annonce = new Annonce(dateDebutAnnonce, null, code_annonce, voitureId, perAuth);
         annonce.create(connection);//Insertion de l'annonce
 
@@ -81,6 +111,7 @@ public class AnnonceController {
         for (String string : equipement_interne) {
             ei.createVEI(connection, voitureId, string);
         }
+        connection.commit();
     }
 
     @PostMapping("validees-liste")
@@ -128,30 +159,25 @@ public class AnnonceController {
         return bag;
     }
 
-    @PostMapping("validee-create")
-    public Bag CreateAnnonceValidee(@RequestBody String annonce_id) throws Exception {
-
+    public void CreateAnnonceValidee(String annonce_id) throws Exception {
         Connection connection = null;
-        Bag bag = new Bag(null, null, null);
         try {
             connection = PgConnection.connect();
-
+            connection.setAutoCommit(false);
             Date dateValidation = new Date(new java.util.Date().getTime());//date actuel
-            String personneAuthId = null;//SESSION
+            String personneAuthId = "PER_AT0002";//SESSION
             AnnonceValidee annonceValidee = new AnnonceValidee(dateValidation, annonce_id, personneAuthId);
             annonceValidee.create(connection);
+            connection.commit();
         }
         catch (Exception e) {
             connection.rollback();
-            bag = new Bag("Insertion", e.getMessage(), null);
+            throw e;
         }
         finally {
             if (!connection.isClosed() && connection != null)
                 connection.close();
         }
-
-        return bag;
-
     }
 
     @GetMapping("commission/{price}")

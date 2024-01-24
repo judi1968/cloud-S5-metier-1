@@ -24,7 +24,7 @@ CREATE SEQUENCE photos_id_seq;
 CREATE SEQUENCE voiture_id_seq;
 CREATE SEQUENCE voiture_prix_id_seq;
 CREATE SEQUENCE annonce_id_seq;
-CREATE SEQUENCE annonce_valide_id_seq;
+CREATE SEQUENCE annonce_validee_id_seq;
 CREATE SEQUENCE commision_id_seq;
 CREATE SEQUENCE remise_id_seq;
 CREATE SEQUENCE remise_voiture_id_seq;
@@ -177,7 +177,7 @@ CREATE VIEW voiture_prix_actuel AS
     WHERE row_num = 1;
 
 CREATE or REPLACE VIEW catalog_voiture AS
-    SELECT v.*,
+    SELECT v.id as voiture_id,
            cat.nom as nom_categorie, cat.description as description_categorie,
            marq.nom as nom_marque, marq.description as description_marque, marq.date_creation as date_creation_marque,
            tcb.nom as nom_type_carburant,
@@ -186,7 +186,7 @@ CREATE or REPLACE VIEW catalog_voiture AS
     FROM voiture v
     JOIN categorie_voiture cat ON cat.id = v.categorie_voiture_id
     JOIN marque_voiture marq ON marq.id = v.marque_voiture_id
-    JOIN type_carburant_voiture tcb ON tcb.id = v.transmission_voiture_id
+    JOIN type_carburant_voiture tcb ON tcb.id = v.type_carburant_id
     JOIN transmission_voiture trans ON trans.id = v.transmission_voiture_id
     JOIN freignage_voiture fre ON fre.id = v.freignage_voiture_id;
 
@@ -194,14 +194,14 @@ CREATE or REPLACE VIEW v_annonce AS
     SELECT aa.date_validation,
            per.nom as nom_admin, per.prenom as prenom_admin, per.address as address_admin,
            per_au.id as utilisateur_id,
-           a.code_annonce, a.date_fin ,
+           a.code_annonce, a.date_fin , a.id as annonce_id,
            voit_pr.prix ,
            catalog_voit.*
     FROM annonce a
     LEFT JOIN annonce_validee aa ON aa.annonce_id = a.id
     JOIN personne_autentification per_au ON per_au.id = a.personne_autentification_id
     JOIN personne per ON per.id = per_au.personne_id
-    JOIN catalog_voiture catalog_voit ON catalog_voit.id = a.voiture_id
+    JOIN catalog_voiture catalog_voit ON catalog_voit.voiture_id = a.voiture_id
     JOIN voiture_prix_actuel voit_pr ON voit_pr.voiture_id = a.voiture_id;
 
 
