@@ -23,38 +23,64 @@ import java.util.Vector;
 
 @RestController
 public class AnnonceController {
-
-    @PostMapping("create")
-    public Bag create(@RequestBody double prix, @RequestBody String code_annonce, @RequestBody Date date, @RequestBody Date annee_fabrication, @RequestBody String couleur, @RequestBody double consommation, @RequestBody String categorie_voiture_id, @RequestBody String marque_voiture_id, @RequestBody String type_carburant_voiture_id, @RequestBody String transmission_voiture_id, @RequestBody String freignage_voiture_id  ) throws Exception {
-        Connection connection = null;
-        Bag bag = new Bag(null, null, null);
+    @PostMapping("annonce")
+    public Map<String, Object> createNewAnnonce(@RequestBody Map<String, Object> requestBody) {
+        Map<String, Object> resultat = new HashMap<>();
+        int status = 0;
+        String titre = null;
+        String message = null;
+    
         try {
-            connection = PgConnection.connect();
-            connection.setAutoCommit(false);
 
-            Voiture voiture = new Voiture(annee_fabrication, couleur, consommation, categorie_voiture_id, marque_voiture_id, type_carburant_voiture_id, transmission_voiture_id, freignage_voiture_id, null);
-            String voitureId = voiture.create(connection);//Insertion de voiture
-
-            VoiturePrix voiturePrix = new VoiturePrix(date, prix, voitureId);
-            voiturePrix.create(connection);//Insertion prix de voiture
-
-            Date dateDebutAnnonce = new Date(new java.util.Date().getTime());//Date Actuel
-            String perAuth = null;//SESSION
-            Annonce annonce = new Annonce(dateDebutAnnonce, null, code_annonce, voitureId, perAuth);
-            annonce.create(connection);//Insertion de l'annonce
-
-            connection.commit();
+            double prix = Double.parseDouble((String) requestBody.get("prix")); 
+            String code_annonce = "0000";
+            Date annee_fabrication = Date.valueOf((String) requestBody.get("annee_fabrication"));
+            String couleur = (String) requestBody.get("couleur");
+            double consommation = Double.parseDouble((String) requestBody.get("consommation"));
+            String categorie_voiture_id = (String) requestBody.get("categorie_voiture");
+            String marque_voiture_id = (String) requestBody.get("marque_voiture");
+            String type_carburant_voiture = (String) requestBody.get("type_carburant_voiture");
+            String transmission_voiture = (String) requestBody.get("transmission_voiture");
+            String freignage_voiture = (String) requestBody.get("freignage_voiture");
+            List<String> equipement_interne = (List<String>) requestBody.get("equipement_interne");
+            String[] equipement_interne_tab = equipement_interne.toArray(new String[0]);
+            create(prix, code_annonce, annee_fabrication, couleur, consommation, categorie_voiture_id, marque_voiture_id, type_carburant_voiture, transmission_voiture, freignage_voiture, equipement_interne_tab);
+            status = 200;
+            titre = "Creation de nouvelle annonce a fait avec succees";
+            message = "Excellent , annonce creer";
+        } catch (Exception e) {
+            status = 500;
+            titre = "Creation de l'annonce a echoue";
+            message = e.getMessage();
+        } finally {
+            resultat.put("status", status);
+                resultat.put("titre", titre);
+                resultat.put("message", message);
         }
-        catch (Exception e) {
-            connection.rollback();
-            bag = new Bag("Insertion", e.getMessage(), null);
-        }
-        finally {
-            if (!connection.isClosed() && connection != null)
-                connection.close();
-        }
+    
+        return resultat;
+    }
+   
+    public void create(double prix, String code_annonce, Date annee_fabrication, String couleur, double consommation, String categorie_voiture_id, String marque_voiture_id, String type_carburant_voiture_id, String transmission_voiture_id, String freignage_voiture_id , String[] equipement_interne ) throws Exception {
+        Connection connection = null;
+        connection = PgConnection.connect();
+        connection.setAutoCommit(false);
 
-        return bag;
+        Voiture voiture = new Voiture(annee_fabrication, couleur, consommation, categorie_voiture_id, marque_voiture_id, type_carburant_voiture_id, transmission_voiture_id, freignage_voiture_id, null);
+        String voitureId = voiture.create(connection);//Insertion de voiture
+
+        VoiturePrix voiturePrix = new VoiturePrix(new Date(new java.util.Date().getTime()), prix, voitureId);
+        voiturePrix.create(connection);//Insertion prix de voiture
+
+        Date dateDebutAnnonce = new Date(new java.util.Date().getTime());//Date Actuel
+        String perAuth = null;//SESSION
+        Annonce annonce = new Annonce(dateDebutAnnonce, null, code_annonce, voitureId, perAuth);
+        annonce.create(connection);//Insertion de l'annonce
+
+        EquipementInterne ei = new EquipementInterne();
+        for (String string : equipement_interne) {
+            ei.createVEI(connection, voitureId, string);
+        }
     }
 
     @PostMapping("validees-liste")
