@@ -177,7 +177,7 @@ CREATE VIEW voiture_prix_actuel AS
     WHERE row_num = 1;
 
 CREATE or REPLACE VIEW catalog_voiture AS
-    SELECT v.id as voiture_id,
+    SELECT v.id as voiture_id, v.annee_fabrication, v.couleur, v.consommation ,
            cat.nom as nom_categorie, cat.description as description_categorie,
            marq.nom as nom_marque, marq.description as description_marque, marq.date_creation as date_creation_marque,
            tcb.nom as nom_type_carburant,
@@ -194,7 +194,7 @@ CREATE or REPLACE VIEW v_annonce AS
     SELECT aa.date_validation,
            per.nom as nom_admin, per.prenom as prenom_admin, per.address as address_admin,
            per_au.id as utilisateur_id,
-           a.code_annonce, a.date_fin , a.id as annonce_id,
+           a.date_debut, a.date_fin , a.id as annonce_id,
            voit_pr.prix ,
            catalog_voit.*
     FROM annonce a

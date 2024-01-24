@@ -90,6 +90,10 @@ public class Annonce {
         this.setPersonneAutentificationId(personneAutentificationId);
     }
 
+    public Annonce() {
+        //TODO Auto-generated constructor stub
+    }
+
     public void create(Connection connection) throws Exception {
         String sql = "INSERT INTO annonce(date_debut, date_fin, code_annonce, voiture_id, personne_autentification_id) VALUES(?, ?, ?, ?, ?)";
         PreparedStatement prstmt = connection.prepareStatement(sql);
