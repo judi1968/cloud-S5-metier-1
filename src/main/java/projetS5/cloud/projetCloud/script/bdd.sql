@@ -29,6 +29,7 @@ CREATE SEQUENCE commision_id_seq;
 CREATE SEQUENCE remise_id_seq;
 CREATE SEQUENCE remise_voiture_id_seq;
 CREATE SEQUENCE vente_id_seq;
+CREATE SEQUENCE commission_id_seq;
 
 CREATE TABLE personne(
     id VARCHAR PRIMARY KEY DEFAULT custom_seq('PER'::character varying, 'personne_id_seq'::character varying, 4) NOT NULL ,
