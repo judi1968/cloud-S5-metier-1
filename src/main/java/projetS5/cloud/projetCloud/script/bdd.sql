@@ -163,7 +163,7 @@ CREATE TABLE vente(
     taux_commission DECIMAL (10, 2) ,
     taux_remise DECIMAL (10, 2) ,
     date DATE NOT NULL ,
-    voiture_id VARCHAR REFERENCES voiture ,
+    annonce_validee_id VARCHAR REFERENCES annonce_validee ,
     personne_autentification_id VARCHAR REFERENCES personne_autentification
 );
 

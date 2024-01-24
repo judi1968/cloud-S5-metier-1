@@ -76,4 +76,12 @@ public class MarqueVoiture {
 
         prstmt.executeUpdate();
     }
+
+    public void delete(Connection connection) throws Exception {
+        String sql = "DELETE FROM marque_voiture WHERE id = ?";
+        try (PreparedStatement prstmt = connection.prepareStatement(sql)){
+            prstmt.setString(1, getId());
+            prstmt.executeUpdate();
+        }
+    }
 }

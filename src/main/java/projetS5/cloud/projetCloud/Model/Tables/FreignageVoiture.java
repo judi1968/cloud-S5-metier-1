@@ -53,4 +53,12 @@ public class FreignageVoiture {
 
         prstmt.executeUpdate();
     }
+
+    public void delete(Connection connection) throws SQLException {
+        String sql = "DELETE FROM freignage_voiture WHERE id = ?";
+        try (PreparedStatement prstmt = connection.prepareStatement(sql)){
+            prstmt.setString(1, getId());
+            prstmt.executeUpdate();
+        }
+    }
 }

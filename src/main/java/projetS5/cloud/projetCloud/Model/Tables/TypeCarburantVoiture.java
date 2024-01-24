@@ -52,4 +52,12 @@ public class TypeCarburantVoiture {
 
         prstmt.executeUpdate();
     }
+
+    public void delete(Connection connection) throws Exception {
+        String sql = "DELETE FROM type_carburant_voiture WHERE id = ?";
+        try (PreparedStatement prstmt = connection.prepareStatement(sql)){
+            prstmt.setString(1, getId());
+            prstmt.executeUpdate();
+        }
+    }
 }

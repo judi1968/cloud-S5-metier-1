@@ -52,4 +52,12 @@ public class TransmissionVoiture {
 
         prstmt.executeUpdate();
     }
+
+    public void delete(Connection connection) throws Exception {
+        String sql = "DELETE FROM transmission_voiture WHERE id = ?";
+        try (PreparedStatement prstmt = connection.prepareStatement(sql)){
+            prstmt.setString(1, getId());
+            prstmt.executeUpdate();
+        }
+    }
 }
