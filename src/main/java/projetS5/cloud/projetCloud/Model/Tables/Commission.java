@@ -157,7 +157,7 @@ public class Commission {
     // Récupérer la commission avec le prix donné dans la plage [prix_min, prix_max]
     public static Commission getCommissionForPrice(double prix,Connection connection) throws Exception {
         String query = "SELECT * FROM commission WHERE ? BETWEEN prix_min AND prix_max ORDER BY date DESC LIMIT 1;";
-        Commission commission = null;
+        Commission commission = new Commission(0, 0, 0, null);
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         boolean statementOpen = false;
@@ -178,7 +178,6 @@ public class Commission {
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                commission = new Commission();
                 commission.setId(resultSet.getString("id"));
                 commission.setPrixMin(resultSet.getDouble("prix_min"));
                 commission.setPrixMax(resultSet.getDouble("prix_max"));
